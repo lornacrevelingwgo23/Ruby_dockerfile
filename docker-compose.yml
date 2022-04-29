@@ -1,0 +1,47 @@
+version: '3'
+services:
+  zeropool:
+    build: 
+      context: ./zeropool_substrate
+      dockerfile: Dockerfile
+    expose:
+      - "9944"
+    ports:
+      - "9944:9944"
+  authority-api:
+    build: 
+      context: ./Ruby_milestone2
+      dockerfile: Dockerfile-authority-api
+    expose:
+      - "3030"
+    ports:
+      - "3030:3030"
+  owner-api:
+    build: 
+      context: ./Ruby_milestone2
+      dockerfile: Dockerfile-owner-api
+    expose:
+      - "3035"
+    ports:
+      - "3035:3035"
+  purchaser-api:
+    build: 
+      context: ./Ruby_milestone2
+      dockerfile: Dockerfile-purchaser-api
+    expose:
+      - "3031"
+    ports:
+      - "3031:3031"
+  ruby-ui:
+    stdin_open: true
+    tty: true
+    build: 
+      context: ./Ruby_milestone2
+      dockerfile: Dockerfile-ruby-ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - zeropool
+      - authority-api
+      - owner-api
+      - purchaser-api
